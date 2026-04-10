@@ -1,45 +1,51 @@
 # maru_bind
 
-A dynamic keybinding system for FiveM (Qbox/ox_lib) that allows players to bind commands and events to keys in-game.
+FiveM (Qbox / ox_lib) 向けの動的キーバインドシステムです。プレイヤーはゲーム内のメニューから、コマンドやイベント（クライアント/サーバー）を自由にキーに割り当てることができます。
 
-## Features
+## 主な機能
 
-- **In-game UI**: Intuitive menu using `ox_lib`.
-- **Diverse Actions**: Supports executing commands, triggering client events, and triggering server events.
-- **Persistent Storage**: Saved locally using `Client KVP`, ensuring settings persist across sessions.
-- **Flexible Rebinding**: Uses `RegisterKeyMapping`, allowing players to rebind keys later via the **GTA V Settings > Key Bindings > FiveM** menu.
-- **Multi-language Support**: Locale support for English and Japanese.
+- **直感的なUI**: `ox_lib` を使用した使いやすいメニュー（`/keybind`）。
+- **多彩なアクション**: コマンド実行、クライアントイベント、サーバーイベントに対応。
+- **引数（データ）のサポート**: イベント実行時に引数を渡すことが可能。
+- **自動型変換**: 入力された引数は、数値 (Number)、真偽値 (Boolean)、文字列 (String) に自動で変換されます（例: `0` は数値として渡されます）。
+- **GTA設定との完全同期**: `RegisterKeyMapping` を採用。キーの変更は **GTA V 設定 > キー割り当て > FiveM** から行え、変更内容はメニュー内の表示にも即座に反映されます。
+- **データの永続化**: `Client KVP` を使用してローカルに保存されるため、サーバー再起動後も設定が維持されます。
+- **多言語対応**: 英語 (en) および 日本語 (ja) に対応。
 
-## Dependencies
+## 必要条件
 
 - [ox_lib](https://github.com/overextended/ox_lib)
 
-## Installation
+## インストール方法
 
-1. Place the `maru_bind` folder in your `resources` directory.
-2. Add the following to your `server.cfg`:
+1. `maru_bind` フォルダを `resources` ディレクトリに配置します。
+2. `server.cfg` に以下を追加します：
    ```cfg
    ensure ox_lib
    ensure maru_bind
    ```
-3. (Optional) Set your preferred language in `fxmanifest.lua` or via `setr ox:locale "en"` in your server config.
+3. サーバー設定の言語に応じてスクリプト内の言語設定も変更されます。
 
-## Usage
+## 使い方
 
-1. Type `/keybind` in the chat or console.
-2. Select "Create New Keybind".
-3. Fill in the details:
-   - **Title**: A label for management (e.g., Use Medkit)
-   - **Key**: The desired key (e.g., F5, K, LCONTROL)
-   - **Action Type**: Command / Client Event / Server Event
-   - **Action**: The actual command or event name (e.g., healme, ox_inventory:useItem)
+1. チャットまたはコンソールで `/keybind` と入力します。
+2. 「新しいキーバインドを作成」を選択します。
+3. 以下の詳細を入力します：
+   - **タイトル**: 管理用のラベル（例: 回復アイテム使用）
+   - **キー**: 初期設定のキー（例: F5, K, LCONTROL）
+   - **アクションタイプ**: コマンド / クライアントイベント / サーバーイベント
+   - **アクション**: 実際のコマンド名やイベント名（例: `healme`, `qb-radialmenu:client:openDoor`）
+   - **関数 / データ (任意)**: イベントに渡す引数（例: `0`, `true`, `medkit`）
 
-## Notes
+## 注意事項
 
-- When registering a command, a leading `/` is optional.
-- To completely remove a deleted keybind's internal command registration, a client restart is required (though the functionality is disabled immediately).
-- **Key Rebinding**: Once a bind is created, it will appear in the GTA V Key Bindings menu. If you want to change the key without deleting the bind, you can do it there.
+- コマンドを登録する際、先頭の `/` はあってもなくても動作します。
+- **キーの変更**: バインド作成後、キーそのものを変更したい場合は、GTA V の「キー割り当て」メニューから行ってください。このスクリプトのメニュー内の表示も自動的に更新されます。
+- 引数の型変換例:
+  - `123` -> `123` (Number)
+  - `true` -> `true` (Boolean)
+  - `hello` -> `"hello"` (String)
 
-## License
+## ライセンス
 
 MIT
